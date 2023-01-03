@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700">
+  <link rel="stylesheet" href="/fonticon/fonticon.css">
+  <link rel="stylesheet" href="/splash-screen.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+
+  <title>Control Stock</title>
+</head>
+
+<body class="page-loading">
+  <script>
+    if (document.documentElement) {
+      var defaultThemeMode = "system";
+
+      var name = document.body.getAttribute("data-kt-name");
+      var themeMode = localStorage.getItem("kt_" + (name ? name + "_" : "") + "theme_mode_value");
+
+      if (themeMode === null) {
+        if (defaultThemeMode === "system") {
+          themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        } else {
+          themeMode = defaultThemeMode;
+        }
+      }
+      document.documentElement.setAttribute("data-theme", themeMode);
+    }
+  </script>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
