@@ -4,14 +4,17 @@ import { useAuth } from "@vueuse/firebase";
 import { Field, ErrorMessage, useForm } from "vee-validate";
 import { auth } from "../../../services/firebase.service";
 import { useCryptos } from "../../../hooks/useCyptos";
+import { useTransactions } from "../../../hooks/useTransactions";
+import { number } from "yup";
 
 //  Hooks
 const { user } = useAuth(auth);
 const { getPriceByValue } =useCryptos()
+const {setPurchase} = useTransactions();
 
 //  Refs
 const crypto_selected = ref<string>("");
-const price = ref<number>(0)
+const price = ref<number>(0);
 
 const cryptos = [
   { title: "Bitcoin", value: "btc" },
@@ -20,31 +23,31 @@ const cryptos = [
   { title: "USDC", value: "usdc" },
 ];
 
-const { handleSubmit } = useForm({
-  initialValues: {
-    user_id: user.value?.uid,
-    action: "purchase",
-    crypto_code: undefined,
-    crypto_amount: undefined,
-    money: undefined,
-    datetime: "",
-  },
-});
+// const { handleSubmit } = useForm({
+//   initialValues: {
+//     user_id: user.value?.uid,
+//     action: "purchase",
+//     crypto_code: undefined,
+//     crypto_amount: "",
+//     money: undefined,
+//     datetime: "",
+//   },
+// });
 
-const submit = handleSubmit((values) => {
-  values.datetime = new Date().toLocaleString();
-  console.log(values);
-});
+// const submit = handleSubmit((values) => {
+//   values.datetime = new Date().toLocaleString();
+//   console.log(values);
+// });
 
 watch(() => crypto_selected.value, () => {
-  price.value = getPriceByValue(crypto_selected.value)?.ask!
+  price.value = getPriceByValue(crypto_selected.value)?.ask!;
 })
 </script>
 
 <template>
   <div class="d-flex justify-content-center py-20">
     <div class="w-500px">
-      <form class="form w-100" @submit.prevent="submit">
+      <form class="form w-100" @submit.prevent="setPurchase">
         <div class="fv-row mb-2">
           <label class="form-label">Seleccioná la criptomoneda</label>
           <Field

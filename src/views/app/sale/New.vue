@@ -21,12 +21,9 @@ const cryptos = [
   { title: "USDC", value: "usdc" },
 ];
 
-const pruchaseSchema = object().shape({
-  crypto_amount: number().required("El campo debe ser obligatorio").min(0, "La cantidad a vender no tiene que ser menor a 0"),
-})
+
 
 const {handleSubmit} = useForm({
-  validationSchema: pruchaseSchema,
   initialValues: {
     user_id: user.value?.uid,
     action: "sale",
