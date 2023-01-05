@@ -5,6 +5,7 @@ import cryptosStore from "../stores/cryptos.store";
 export function useCryptos() {
   const API_CRIPTO = axios.create({
     baseURL: "https://criptoya.com/api",
+    headers: {'Access-Control-Allow-Credentials':true},
   });
 
   const EXCHANGE = "ripio";

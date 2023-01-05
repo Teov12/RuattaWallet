@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import { auth } from "../services/firebase.service";
 import authStore from "../stores/auth.store";
+import { useAuth } from "@vueuse/firebase";
 
 export function useFirebase() {
   const store = authStore();
@@ -59,6 +60,10 @@ export function useFirebase() {
       .catch((e) => console.log(e));
   }
 
+  async function logOut() {
+    
+  }
+
   function setUser(user: User) {
     Swal.fire("Bienvienido", "", "success").then(() => {
       router.push({ path: "/home" });
@@ -66,10 +71,13 @@ export function useFirebase() {
     store.setUser(user);
   }
 
+  const {user} = useAuth(auth)
+
   return {
     currentUser,
     login,
     register,
     signInWithGoogle,
+    user
   };
 }

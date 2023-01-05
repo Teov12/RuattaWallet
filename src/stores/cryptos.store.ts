@@ -1,38 +1,60 @@
 import { defineStore } from "pinia";
-
-interface RequestBody {
-  ask: number;
-  totalAsk: number;
-  bid: number;
-  totalBid: number;
-  time: number;
-}
-
-interface Crypto {
-  value: string;
-  prices: RequestBody | null;
-}
+import { ICoin, IPrices } from "../interfaces/ICoin";
 
 interface CryptoState {
-  cryptos: Crypto[];
+  cryptos: ICoin[];
 }
 
 export default defineStore("crypto", {
   state: (): CryptoState => ({
     cryptos: [
-      { prices: null, value: "btc" },
-      { prices: null, value: "eth" },
-      { prices: null, value: "dai" },
-      { prices: null, value: "usdc" },
+      {
+        name: "Bitcoin",
+        value: "btc", 
+        prices: {ask: 0, totalAsk: 0, bid: 0, totalBid: 0, time: 0}, 
+      },
+      { 
+        name: "Etherium" ,
+        value: "eth", 
+        prices: {ask: 0, totalAsk: 0, bid: 0, totalBid: 0, time: 0}, 
+      },
+      { 
+        name: "DAI" ,
+        value: "dai", 
+        prices: {ask: 0, totalAsk: 0, bid: 0, totalBid: 0, time: 0},
+      },
+      { 
+        name: "USDC" ,
+        value: "usdc",
+        prices: {ask: 0, totalAsk: 0, bid: 0, totalBid: 0, time: 0}, 
+      },
     ],
   }),
   getters: {
     getPriceByValue: (state) => (value: string) => {
       return state.cryptos.find((c) => c.value == value)?.prices;
     },
+    getAllCoins(state){
+      return state.cryptos;
+    },
+    getAskPriceByValue: 
+    (state) => 
+    (value: string): number => {
+      const prices = state.cryptos.find((c) => c.value == value)?.prices;
+      if(!prices) return 0;
+      return prices.ask;
+    },
+    getBidPriceByValue:
+    (state) =>
+    (value: string): number => {
+      const prices = state.cryptos.find((c) => c.value == value)?.prices;
+      if (!prices) return 0;
+      return prices.bid;
+    }
+
   },
   actions: {
-    setPriceByValue(value: string, data: RequestBody) {
+    setPriceByValue(value: string, data: IPrices) {
       let crypto = this.cryptos.find((c) => c.value == value);
       if (crypto) crypto.prices = data;
     },

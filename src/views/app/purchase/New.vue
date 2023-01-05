@@ -1,64 +1,69 @@
 <script lang="ts" setup>
 import { ref, watch } from "vue";
-import { useAuth } from "@vueuse/firebase";
+import useCryptoStore from "../../../stores/cryptos.store"
+import { useFirebase } from "../../../hooks/useFirebase";
+import {ITransaction} from "../../../interfaces/ITransaction"
 import { Field, ErrorMessage, useForm } from "vee-validate";
-import { auth } from "../../../services/firebase.service";
-import { useCryptos } from "../../../hooks/useCyptos";
-import { useTransactions } from "../../../hooks/useTransactions";
-import { number } from "yup";
+import {cryptoSchema} from "../../../validations/cryptoValidations"
+import {useNow, useDateFormat} from '@vueuse/core';
 
 //  Hooks
-const { user } = useAuth(auth);
-const { getPriceByValue } =useCryptos()
-const {setPurchase} = useTransactions();
+const { user } = useFirebase();
+//Store
+const cryptoStore = useCryptoStore();
 
 //  Refs
-const crypto_selected = ref<string>("");
-const price = ref<number>(0);
+const isLoding = ref<boolean>(false);
+//
 
-const cryptos = [
-  { title: "Bitcoin", value: "btc" },
-  { title: "Etherium", value: "eth" },
-  { title: "DAI", value: "dai" },
-  { title: "USDC", value: "usdc" },
-];
+const date = useDateFormat(useNow(), 'DD-MM-YYYY HH:mm')
 
-// const { handleSubmit } = useForm({
-//   initialValues: {
-//     user_id: user.value?.uid,
-//     action: "purchase",
-//     crypto_code: undefined,
-//     crypto_amount: "",
-//     money: undefined,
-//     datetime: "",
-//   },
-// });
+const { handleSubmit, setFieldValue, values } = useForm<ITransaction>({
+  initialValues: {
+    user_id: user.value?.uid!,
+    action: "purchase",
+    crypto_code: "",
+    crypto_amount: 0,
+    money: 0,
+    time: ""
+  },
+  validationSchema: cryptoSchema
+});
 
-// const submit = handleSubmit((values) => {
-//   values.datetime = new Date().toLocaleString();
-//   console.log(values);
-// });
+watch(
+  () => values.crypto_amount, 
+  () => 
+    setFieldValue(
+      "money",
+      values.crypto_amount * cryptoStore.getAskPriceByValue(values.crypto_code)
+    )  
+);
 
-watch(() => crypto_selected.value, () => {
-  price.value = getPriceByValue(crypto_selected.value)?.ask!;
+
+const submit = handleSubmit(async(values) =>{
+  isLoding.value = true;
+  values.crypto_amount = Number(values.crypto_amount);
+  values.time = String(date.value);
+  values.money.toFixed(2).toString();
+  console.log(values);
 })
+
 </script>
 
 <template>
   <div class="d-flex justify-content-center py-20">
     <div class="w-500px">
-      <form class="form w-100" @submit.prevent="setPurchase">
+      <form class="form w-100" @submit.prevent="submit">
         <div class="fv-row mb-2">
           <label class="form-label">Seleccioná la criptomoneda</label>
           <Field
             name="crypto_code"
-            v-slot="{ field, meta }"
-            v-model="crypto_selected"
+            v-slot="{field}"
           >
             <select class="form-select" v-bind="field">
               <option value="">Seleccioná una criptomoneda</option>
-              <option v-for="(item, i) in cryptos" :value="item.value">
-                {{ item.title }}
+              <option v-for="(item, i) in cryptoStore.getAllCoins" :value="item.value">
+                {{ item.name }}
               </option>
             </select>
           </Field>
@@ -66,13 +71,13 @@ watch(() => crypto_selected.value, () => {
         </div>
         <div class="fv-row mb-8">
           <div class="d-flex justify-content-between">
-            <span class="fw-bolder">Precio de la cripto:</span>
-            <span>$ 295643</span>
+            <span class="fw-bolder">Total a pagar:</span>
+            <span>$ {{values.money}}</span>
           </div>
         </div>
         <div class="fv-row mb-8">
           <label class="form-label">Cantidad</label>
-          <Field name="crypto_amount" v-slot="{ field, meta }">
+          <Field name="crypto_amount" v-slot="{ field}">
             <input
               v-bind="field"
               step="any"
@@ -87,5 +92,4 @@ watch(() => crypto_selected.value, () => {
       </form>
     </div>
   </div>
-  {{ price }}
 </template>
