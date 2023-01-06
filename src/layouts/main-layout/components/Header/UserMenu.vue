@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { useAuth } from "@vueuse/firebase";
 import { auth } from "../../../../services/firebase.service";
+import {useFirebase} from "../../../../hooks/useFirebase"
 
 const { user } = useAuth(auth);
+const {logOut} = useFirebase();
+
 </script>
 
 <template>
@@ -30,7 +33,7 @@ const { user } = useAuth(auth);
     </div>
     <div class="separator my-2"></div>
     <div class="menu-item px-5">
-      <a @click="" class="menu-link px-5">Cerrar sesión</a>
+      <a @click="logOut" class="menu-link px-5">Cerrar sesión</a>
     </div>
   </div>
 </template>

@@ -6,6 +6,7 @@ import {ITransaction} from "../../../interfaces/ITransaction"
 import { Field, ErrorMessage, useForm } from "vee-validate";
 import {cryptoSchema} from "../../../validations/cryptoValidations"
 import {useNow, useDateFormat} from '@vueuse/core';
+import Swal from "sweetalert2";
 
 //  Hooks
 const { user } = useFirebase();
@@ -13,7 +14,7 @@ const { user } = useFirebase();
 const cryptoStore = useCryptoStore();
 
 //  Refs
-const isLoding = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
 //
 
 const date = useDateFormat(useNow(), 'DD-MM-YYYY HH:mm')
@@ -35,16 +36,17 @@ watch(
   () => 
     setFieldValue(
       "money",
-      values.crypto_amount * cryptoStore.getAskPriceByValue(values.crypto_code)
+      values.crypto_amount * cryptoStore.getTotalAskPriceByValue(values.crypto_code)
     )  
 );
 
 
 const submit = handleSubmit(async(values) =>{
-  isLoding.value = true;
-  values.crypto_amount = Number(values.crypto_amount);
-  values.time = String(date.value);
+  isLoading.value = true;
+  values.crypto_amount = values.crypto_amount;
+  values.time = date.value;
   values.money.toFixed(2).toString();
+  Swal.fire("Compra exitosa", "", "success")
   console.log(values);
 })
 
@@ -88,7 +90,11 @@ const submit = handleSubmit(async(values) =>{
           </Field>
           <ErrorMessage name="crypto_amount" class="text-danger" />
         </div>
-        <button class="btn btn-primary w-100" type="submit">Comprar</button>
+        <button class="btn btn-primary w-100" type="submit">
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2 mr-3"
+            v-if="isLoading"
+          ></span>Comprar</button>
       </form>
     </div>
   </div>

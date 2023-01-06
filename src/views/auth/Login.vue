@@ -2,9 +2,12 @@
 import { Field, ErrorMessage, useForm } from "vee-validate";
 import * as Yup from "yup";
 import { useFirebase } from "../../hooks/useFirebase";
+import {useSweetAlert} from "../../hooks/useSweetAlert"
 
 //  Components
 import ButtonSignInGoogleVue from "./components/ButtonSignInGoogle.vue";
+
+const {toastSuccess} = useSweetAlert();
 
 const { login } = useFirebase();
 const { handleSubmit } = useForm({

@@ -5,12 +5,18 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   User,
+  signOut
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import { auth } from "../services/firebase.service";
 import authStore from "../stores/auth.store";
 import { useAuth } from "@vueuse/firebase";
+import { useSweetAlert } from "./useSweetAlert";
+import { ref } from "vue";
+
+const {toastSuccess} = useSweetAlert();
+const isLoading = ref<boolean>(false);
 
 export function useFirebase() {
   const store = authStore();
@@ -57,15 +63,25 @@ export function useFirebase() {
       .then((userCredential) => {
         setUser(userCredential.user);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => (isLoading.value = false));
   }
 
   async function logOut() {
-    
+    await signOut(auth)
+    Swal.fire()
+    .then(() => {router.push({path: "/login"})})
+    .catch((err) =>console.log(err));
   }
 
   function setUser(user: User) {
-    Swal.fire("Bienvienido", "", "success").then(() => {
+    Swal.fire({
+      title: "Bienvenido",
+      color: '#3085d6',
+      icon: "success",
+      text: "Compre y venda de forma segura!"
+    })
+    .then(() => {
       router.push({ path: "/home" });
     });
     store.setUser(user);
@@ -78,6 +94,7 @@ export function useFirebase() {
     login,
     register,
     signInWithGoogle,
-    user
+    logOut,
+    user,
   };
 }

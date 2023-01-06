@@ -44,12 +44,26 @@ export default defineStore("crypto", {
       if(!prices) return 0;
       return prices.ask;
     },
+    getTotalAskPriceByValue: 
+    (state) => 
+    (value: string): number => {
+      const prices = state.cryptos.find((c) => c.value == value)?.prices;
+      if(!prices) return 0;
+      return prices.totalAsk;
+    },
     getBidPriceByValue:
     (state) =>
     (value: string): number => {
       const prices = state.cryptos.find((c) => c.value == value)?.prices;
       if (!prices) return 0;
       return prices.bid;
+    },
+    getTotalBidPriceByValue:
+    (state) =>
+    (value: string): number => {
+      const prices = state.cryptos.find((c) => c.value == value)?.prices;
+      if (!prices) return 0;
+      return prices.totalBid;
     }
 
   },
