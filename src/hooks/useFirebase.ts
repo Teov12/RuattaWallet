@@ -15,7 +15,7 @@ import { useAuth } from "@vueuse/firebase";
 import { useSweetAlert } from "./useSweetAlert";
 import { ref } from "vue";
 
-const {toastSuccess} = useSweetAlert();
+const {toastSuccess, swalConfirmDialog} = useSweetAlert();
 const isLoading = ref<boolean>(false);
 
 export function useFirebase() {
@@ -40,7 +40,14 @@ export function useFirebase() {
       .then((userCredential) => {
         setUser(userCredential.user);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        if (e.code == "auth/wrong-password") {
+          alert("Contraseña incorrecta")
+        }
+        else if(e.code == "auth/user-not-found"){
+          alert("Usuario no encontrado")
+        }
+      });
   }
 
   //  Metodo para registrar usuario
@@ -68,10 +75,16 @@ export function useFirebase() {
   }
 
   async function logOut() {
-    await signOut(auth)
-    Swal.fire()
-    .then(() => {router.push({path: "/login"})})
-    .catch((err) =>console.log(err));
+    swalConfirmDialog(
+      "¿Seguro que quiere salir?",
+      "Si, salir!",
+      "No",
+      async() => {
+        await signOut(auth)
+          .then(() => {router.push({path: "/login"});
+        });
+      }
+    );
   }
 
   function setUser(user: User) {

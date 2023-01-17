@@ -25,8 +25,11 @@ const submit = handleSubmit(async (values) => {
 
 <template>
   <form class="form w-100" @submit.prevent="submit">
-    <div class="text-center mb-8">
-      <h1>Ingresar</h1>
+    <div class="text-center mb-11">
+      <h1 class="text-dark fw-bolder fs-1 mb-3">Ingresar</h1>
+      <div>
+        <span class="w-125px text-gray-500 fw-semibold fs-7">Ingrese con su correo electrónico</span>
+      </div>
     </div>
     <div class="fv-row mb-8">
       <label class="form-label fw-bolder">Correo electrónico</label>
@@ -56,10 +59,15 @@ const submit = handleSubmit(async (values) => {
     </div>
     <button class="btn btn-primary w-100 mb-8">Ingresar</button>
     <div class="text-center mb-8">
-      <RouterLink to="/register" class="btn btn-text-primary"
-        >Registrarse aquí</RouterLink
+      <span>No tiene cuenta?</span>
+      <RouterLink to="/register" class="btn btn-text-primary">
+        Registrarse aquí
+      </RouterLink
       >
     </div>
-    <ButtonSignInGoogleVue />
+      <div class="separator separator-content my-14">
+        <span class="w-125px text-gray-500 fw-semibold fs-7">O con sus redes sociales</span>
+      </div>
+      <ButtonSignInGoogleVue />
   </form>
 </template>
