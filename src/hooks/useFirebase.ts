@@ -57,6 +57,7 @@ export function useFirebase() {
       });
   }
 
+  //Metodo para iniciar sesion con google
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
@@ -67,9 +68,25 @@ export function useFirebase() {
       .finally(() => (isLoading.value = false));
   }
 
+  //Metodo para desloguear
   async function logOut() {
     await signOut(auth)
-    Swal.fire()
+    Swal.fire({
+      title: 'Está seguro de cerrar la sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cerrar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Sesión cerrada!',
+          'Lo esperamos, vuelva pronto',
+          'success'
+        )
+      }
+    })
     .then(() => {router.push({path: "/login"})})
     .catch((err) =>console.log(err));
   }

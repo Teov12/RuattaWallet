@@ -5,7 +5,7 @@ import { useFirebase } from "../../../hooks/useFirebase";
 import {ITransaction} from "../../../interfaces/ITransaction"
 import { Field, ErrorMessage, useForm } from "vee-validate";
 import {cryptoSchema} from "../../../validations/cryptoValidations"
-import {useNow, useDateFormat} from '@vueuse/core';
+import {useDateFormat, useNow} from "@vueuse/core"; 
 import Swal from "sweetalert2";
 
 //  Hooks
@@ -90,11 +90,15 @@ const submit = handleSubmit(async(values) =>{
           </Field>
           <ErrorMessage name="crypto_amount" class="text-danger" />
         </div>
-        <button class="btn btn-primary w-100" type="submit">
+        <div class="">
+        <button type="submit" class="btn btn-primary w-100">
           <span
-            class="spinner-border spinner-border-sm align-middle ms-2 mr-3"
+            class="spinner-border spinner-border-sm align-middle ms-2"
             v-if="isLoading"
-          ></span>Comprar</button>
+          ></span>
+          Comprar
+        </button>
+      </div>
       </form>
     </div>
   </div>

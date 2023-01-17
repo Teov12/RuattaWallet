@@ -56,7 +56,7 @@ const submit = handleSubmit((values) => {
           <label class="form-label">Seleccioná la criptomoneda</label>
           <Field
             name="crypto_code"
-            v-slot="{ field, meta}"
+            v-slot="{ field}"
           >
             <select class="form-select" v-bind="field">
               <option value="">Seleccioná una criptomoneda</option>
@@ -75,8 +75,9 @@ const submit = handleSubmit((values) => {
         </div>
         <div class="fv-row mb-8">
           <label class="form-label">Cantidad</label>
-          <Field name="crypto_amount" v-slot="{field, meta}">
-            <input v-bind="field"
+          <Field name="crypto_amount" v-slot="{field}">
+            <input 
+              v-bind="field"
               type="number"
               step="any"
               class="form-control"
@@ -85,10 +86,15 @@ const submit = handleSubmit((values) => {
           </Field>
           <ErrorMessage name="crypto_amount" class="text-danger"/>
         </div>
-        <button class=" btn btn-primary w-100" type="submit"><span
+        <div class="">
+        <button type="submit" class="btn btn-primary w-100">
+          <span
             class="spinner-border spinner-border-sm align-middle ms-2"
             v-if="isLoading"
-          ></span>Vender</button>
+          ></span>
+          Vender
+        </button>
+      </div>
       </form>
     </div>
   </div>

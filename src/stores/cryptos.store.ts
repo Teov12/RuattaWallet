@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ICoin, IPrices } from "../interfaces/ICoin";
+import { ICoin, IPrices } from "../interfaces/Index";
 
 interface CryptoState {
   cryptos: ICoin[];
