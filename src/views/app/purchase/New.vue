@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import {useTransactions} from "../../../hooks/useTransactions"
 import { ref, watch } from "vue";
 import useCryptoStore from "../../../stores/cryptos.store"
 import { useFirebase } from "../../../hooks/useFirebase";
@@ -10,9 +11,9 @@ import Swal from "sweetalert2";
 
 //  Hooks
 const { user } = useFirebase();
+const {postTransactions} = useTransactions();
 //Store
 const cryptoStore = useCryptoStore();
-
 //  Refs
 const isLoading = ref<boolean>(false);
 //
@@ -41,14 +42,26 @@ watch(
 );
 
 
-const submit = handleSubmit(async(values) =>{
-  isLoading.value = true;
-  values.crypto_amount = values.crypto_amount;
-  values.time = date.value;
-  values.money.toFixed(2).toString();
-  Swal.fire("Compra exitosa", "", "success")
-  console.log(values);
-})
+  const submit = handleSubmit(async(values) =>{
+    Swal.fire("Compra exitosa", "", "success")
+    isLoading.value = true;
+    values.crypto_amount = values.crypto_amount;
+    values.time = date.value;
+    values.money.toFixed(2).toString()
+    console.log(values);
+
+    await postTransactions({
+    user_id: user.value?.uid,
+    action: "purchase",
+    crypto_code: values.crypto_code,
+    crypto_amount: values.crypto_amount,
+    money: values.money.toFixed(2).toString(),
+    datetime: date.value
+    })
+    .finally(() => (isLoading.value=false))
+  });
+
+  console.log(user.value?.uid);
 
 </script>
 

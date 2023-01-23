@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useForm, ErrorMessage, Field} from "vee-validate";
+import {useTransactions} from "../../../hooks/useTransactions"
 import {ref, watch} from "vue";
 import useCryptoStore from "../../../stores/cryptos.store"
 import Swal from "sweetalert2";
@@ -10,6 +11,7 @@ import { cryptoSchema } from "../../../validations/cryptoValidations";
 
 //Hooks
 const {user} = useFirebase();
+const {postTransactions} = useTransactions();
 
 //Store
 const cryptoStore = useCryptoStore();
@@ -38,12 +40,22 @@ watch(
   setFieldValue("money", values.crypto_amount * cryptoStore.getTotalBidPriceByValue(values.crypto_code))
 })
 
-const submit = handleSubmit((values) => {
+const submit = handleSubmit(async(values) => {
   isLoading.value = true;
   values.money.toFixed(2).toString();
   values.time = date.value
   Swal.fire("Venta exitosa", "", "success")
   console.log(values);
+
+  const sale = await postTransactions({
+    user_id: user.value?.uid,
+    action: "sale",
+    crypto_code: values.crypto_code,
+    crypto_amount: values.crypto_amount,
+    money: values.money.toFixed(2).toString(),
+    datetime: date.value
+  })
+  .finally(() => (isLoading.value=false))
 });
 
 </script>
@@ -87,7 +99,7 @@ const submit = handleSubmit((values) => {
           <ErrorMessage name="crypto_amount" class="text-danger"/>
         </div>
         <div class="">
-        <button type="submit" class="btn btn-primary w-100">
+        <button type="submit" class="btn btn-primary w-100" @submit="submit">
           <span
             class="spinner-border spinner-border-sm align-middle ms-2"
             v-if="isLoading"

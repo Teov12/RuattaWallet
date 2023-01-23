@@ -7,23 +7,23 @@ export function useTransactions(){
     const {transaction, loading:transactionLoad} = transctionStore()
     const { user } = useFirebase();
 
-    async function getTransactions() {
-        await apiClient.get(`/transactions/${user.value?.uid}`)
+    async function getTransactions(x) {
+        await apiClient.get(`/transactions?q={"user_id": "${user.value?.uid}"}`)
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
         
     }
 
-    async function postTransactions() {
-        await apiClient.post(`/transactions`)
-        Swal.fire("Compra realizada", "", "success")
-        .then((data) => console.log(data))
+    async function postTransactions(body) {
+        await apiClient.post(`/transactions`, body)
+        .then((res) => console.log(res))
         .catch((err) => console.log(err))
     }
 
     return {
         getTransactions,
-        transactionLoad        
+        transactionLoad,
+        postTransactions       
     };
 }
 
