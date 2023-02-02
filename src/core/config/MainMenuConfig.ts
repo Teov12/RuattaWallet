@@ -14,6 +14,11 @@ const MenuConfig = [
     route: "/sale",
     icon: "fa-sun",
   },
+  {
+    title: "Historial",
+    route: "/history",
+    icon : "fa-money-bill-transfer"
+  }
 ];
 
 export default MenuConfig;

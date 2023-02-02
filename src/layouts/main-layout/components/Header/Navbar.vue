@@ -4,6 +4,7 @@ import { auth } from "../../../../services/firebase.service";
 
 //  Components
 import UserMenuVue from "./UserMenu.vue";
+import ThemeModeVue from "./ThemeMode.vue";
 
 //  Hooks
 const { user } = useAuth(auth);
@@ -11,6 +12,7 @@ const { user } = useAuth(auth);
 
 <template>
   <div class="app-navbar flex-shrink-0">
+    <ThemeModeVue />
     <div class="app-navbar-item ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
       <div
         class="cursor-pointer symbol symbol-35px symbol-md-40px"

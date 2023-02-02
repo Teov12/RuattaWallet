@@ -25,13 +25,16 @@ const { user } = useAuth(auth);
 const store = authStore();
 const configStore = useConfigStore();
 
-onBeforeMount(() => LayoutServices.init());
+onBeforeMount(async () => {LayoutServices.init(), await getAllPrices()});
+
 
 onMounted(async () => {
   configStore.overrideLayoutConfig();
   nextTick(() => {
     reinitializeComponents();
-    getAllPrices();
+    setInterval(async () =>{
+      getAllPrices();
+    }, 10000);
     store.setUser(user.value!);
   });
 });
