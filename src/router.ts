@@ -42,8 +42,20 @@ const routes: RouteRecordRaw[] = [
         path: "/history",
         name: "History",
         component: () => import("./views/app/history/Index.vue"),
-        meta: {pageTitle: "Historial"}
-      }
+        meta: {pageTitle: "Historial"},
+      },
+      {
+        path: "/history/read",
+        name: "Read transaction",
+        component: () => import ("./views/app/history/Read.vue"),
+        meta: {pageTitle: "Transaccion"}
+      },
+      {
+        path: "/history/update/:id",
+        name: "Edit transaction",
+        component: () => import ("./views/app/history/Update.vue"),
+        meta: {pageTitle: "Edit transaction"}
+      },
     ],
   },
   {

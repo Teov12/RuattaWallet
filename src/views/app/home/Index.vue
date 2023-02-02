@@ -1,5 +1,13 @@
 <script lang="ts" setup>
 import cryptoCard from './components/cryptoCard.vue';
+import {useTransactions} from "../../../hooks/useTransactions"
+import { onMounted } from '@vue/runtime-core';
+
+const {getAllTransactions} = useTransactions();
+
+onMounted(() => {
+  getAllTransactions()
+})
 
 </script>
 

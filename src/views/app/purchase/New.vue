@@ -27,7 +27,7 @@ const { handleSubmit, setFieldValue, values } = useForm<ITransaction>({
     crypto_code: "",
     crypto_amount: 0,
     money: 0,
-    time: ""
+    datetime: ""
   },
   validationSchema: cryptoSchema
 });
@@ -43,10 +43,9 @@ watch(
 
 
   const submit = handleSubmit(async(values) =>{
-    Swal.fire("Compra exitosa", "", "success")
     isLoading.value = true;
     values.crypto_amount = values.crypto_amount;
-    values.time = date.value;
+    values.datetime = date.value;
     values.money.toFixed(2).toString()
     console.log(values);
 
@@ -56,9 +55,12 @@ watch(
     crypto_code: values.crypto_code,
     crypto_amount: values.crypto_amount,
     money: values.money.toFixed(2).toString(),
-    datetime: date.value
+    datetime: date.value,
     })
-    .finally(() => (isLoading.value=false))
+    .then(() =>  (Swal.fire("Compra exitosa", "", "success")))
+    .finally(() => {
+      isLoading.value = false
+    })
   });
 
   console.log(user.value?.uid);
@@ -77,7 +79,7 @@ watch(
           >
             <select class="form-select" v-bind="field">
               <option value="">Seleccioná una criptomoneda</option>
-              <option v-for="(item, i) in cryptoStore.getAllCoins" :value="item.value">
+              <option v-for="(item, i) in cryptoStore.getAllCoins" :value="item.value" :key="i">
                 {{ item.name }}
               </option>
             </select>

@@ -105,6 +105,7 @@ export function useFirebase() {
   const {user} = useAuth(auth)
 
   return {
+    setUser,
     currentUser,
     login,
     register,

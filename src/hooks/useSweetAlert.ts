@@ -37,6 +37,22 @@ export function useSweetAlert() {
             }
         });
     }
+
+    function swalConfirmDialog2(
+        title: string,
+        confirmButtonText: string,
+        cancelButtonText: string,
+    )   {
+        Swal.fire({
+            title: title,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#009ef7",
+            cancelButtonColor: "#f1416c",
+            confirmButtonText: confirmButtonText,
+            cancelButtonText: cancelButtonText,
+        });
+    }
     
     function toastSuccess(text: string) {
         Toast.fire({ icon: "success", text: text });
@@ -45,6 +61,7 @@ export function useSweetAlert() {
     return {
         swalSuccess,
         swalConfirmDialog,
+        swalConfirmDialog2,
         toastSuccess,
     };
 }

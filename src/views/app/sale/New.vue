@@ -29,7 +29,7 @@ const {handleSubmit, setFieldValue, values} = useForm<ITransaction>({
     crypto_code: "",
     crypto_amount: 0,
     money: 0,
-    time: "",
+    datetime: "",
   },
   validationSchema: cryptoSchema
 });
@@ -43,8 +43,7 @@ watch(
 const submit = handleSubmit(async(values) => {
   isLoading.value = true;
   values.money.toFixed(2).toString();
-  values.time = date.value
-  Swal.fire("Venta exitosa", "", "success")
+  values.datetime = date.value
   console.log(values);
 
   const sale = await postTransactions({
@@ -55,6 +54,7 @@ const submit = handleSubmit(async(values) => {
     money: values.money.toFixed(2).toString(),
     datetime: date.value
   })
+  .then(() => Swal.fire("Venta exitosa", "", "success"))
   .finally(() => (isLoading.value=false))
 });
 

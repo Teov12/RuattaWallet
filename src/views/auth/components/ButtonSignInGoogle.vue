@@ -1,11 +1,24 @@
 <script lang="ts" setup>
 
-import { useFirebase } from "../../../hooks/useFirebase";
+import { useFirebase} from "../../../hooks/useFirebase";
+import {GoogleAuthProvider, signInWithPopup,} from "firebase/auth";
+import { auth } from "../../../services/firebase.service"
 import { ref } from "vue";
 
-const { signInWithGoogle } = useFirebase();
-
+const {setUser, user} = useFirebase()
 const isLoading = ref<boolean>(false)
+
+async function signInWithGoogle() {
+  isLoading.value = true;
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider)
+    .then((userCredential) => {
+      setUser(userCredential.user);
+    })
+    .catch((e) => console.log(e))
+    .finally(() => (isLoading.value = false));
+  }
+
 </script>
 
 <template>
