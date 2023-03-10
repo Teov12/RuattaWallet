@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import Swal, { SweetAlertIcon } from "sweetalert2";
 
 export function useSweetAlert() {
     const Toast = Swal.mixin({
@@ -12,6 +12,10 @@ export function useSweetAlert() {
             toast.addEventListener("mouseleave", Swal.resumeTimer);
         },
     });
+
+    const showSwal = (title: string, icon: SweetAlertIcon) => Swal.fire(title, "", icon);
+
+    const showToast = (title: string, icon: SweetAlertIcon) => Toast.fire(title, "", icon) 
 
     function swalSuccess(title: string, callback: Function){
         Swal.fire(title, "", "success").then(() => callback());
@@ -63,5 +67,7 @@ export function useSweetAlert() {
         swalConfirmDialog,
         swalConfirmDialog2,
         toastSuccess,
+        showToast,
+        showSwal,
     };
 }

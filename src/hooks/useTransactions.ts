@@ -31,7 +31,24 @@ export function useTransactions(){
         })
         .catch((error) => console.log(error)).finally(() => transactionStore.setLoading(false));
     }
-
+    
+    async function getTransaction(id) {
+        await apiClient.get(`/transactions/${id}`)
+        .then((res) => {
+            const transaction = {
+                _id: res.data._id,
+                money: res.data.money,
+                action: res.data.action,
+                crypto_amount: res.data.crypto_amount,
+                crypto_code: res.data.crypto_code,
+                datetime: res.data.datetime
+            };
+            console.log(transaction);
+            transactionStore.setTransactionRead(transaction);
+        })
+        .catch((e) => console.log(e));
+    }
+    
     async function postTransactions(body: ITransaction) {
         await apiClient.post(`/transactions`, body)
         .then((res) => console.log(res))
@@ -51,26 +68,13 @@ export function useTransactions(){
         )
     }
 
-    async function getTransaction(id) {
-        await apiClient.get(`/transactions/${id}`)
-        .then((res) => {
-            const transaction = {
-                _id: res.data._id,
-                money: res.data.money,
-                action: res.data.action,
-                crypto_amount: res.data.crypto_amount,
-                crypto_code: res.data.crypto_code,
-                datetime: res.data.datetime
-            };
-            console.log(transaction);
-            transactionStore.setTransactionRead(transaction);
-        })
-        .catch((e) => console.log(e));
-    }
 
-    async function updateTransaction(id) {
-        await apiClient.patch(`/transactions/${id}`)
-        .then((res) => console.log(res))
+    async function updateTransaction(values: ITransaction) {
+        await apiClient.patch(`/transactions/${values._id}`, values)
+        .then(async (res) => {
+            console.log(res)
+            await getTransaction(values._id);
+        })
         .catch((e) => console.log(e));
     }
 
