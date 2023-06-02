@@ -19,7 +19,7 @@ import {useSweetAlert} from "../../../hooks/useSweetAlert";
 import {ref, onMounted} from "vue"
 import {useRoute} from "vue-router";
 import { apiClient } from "../../../services/api.service";
-import router from "../../../router";
+import router from "../../../router/router";
 
 const route = useRoute();
 const {updateTransaction} = useTransactions();

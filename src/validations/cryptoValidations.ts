@@ -5,8 +5,7 @@ export const cryptoSchema = object().shape({
     action: string(),
     crypto_code: string().
         required("Campo obligatorio"),
-    crypto_amount:number()
-        .positive("El numero tiene que ser mayor a 0")
+    crypto_amount:string()
         .required("Campo obligatorio"),
     money: number(),
     time: string()

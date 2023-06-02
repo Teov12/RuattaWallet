@@ -15,6 +15,11 @@ const MenuConfig = [
     icon: "fa-sun",
   },
   {
+    title: 'Billetera',
+    route: '/wallet',
+    icon: "fa-wallet"
+  },
+  {
     title: "Historial",
     route: "/history",
     icon : "fa-money-bill-transfer"

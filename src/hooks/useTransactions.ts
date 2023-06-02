@@ -24,10 +24,38 @@ export function useTransactions(){
         .then((res) => {
             const purchases = res.data.filter((p) => p.action == "purchase");
             if (purchases) transactionStore.setAllPurchases(purchases);
+            
+            const purchasesBTC = res.data.filter((p) => p.crypto_code == "btc" && p.action == "purchase");
+            if (purchasesBTC)  transactionStore.setPBTC(purchasesBTC);
+
+            const purchasesETH = res.data.filter((p) => p.crypto_code == "eth" && p.action == "purchase");
+            if (purchasesETH)  transactionStore.setPETH(purchasesETH);
+
+            const purchasesDAI = res.data.filter((p) => p.crypto_code == "dai" && p.action == "purchase");
+            if (purchasesDAI)  transactionStore.setPDAI(purchasesDAI);
+
+            // console.log(purchasesBTC);
+            // console.log(purchasesETH);
+            // console.log(purchasesDAI);
 
             const sales = res.data.filter((p) => p.action == "sale");
             if (sales) transactionStore.setAllSales(sales);
-            console.log(res.data);
+
+            const salesBTC = res.data.filter((p) => p.crypto_code == "btc" && p.action == "sale");
+            if (salesBTC)  transactionStore.setSBTC(salesBTC);
+
+            const salesETH = res.data.filter((p) => p.crypto_code == "eth" && p.action == "sale");
+            if (salesETH)  transactionStore.setSETH(salesETH);
+
+
+            const salesDAI = res.data.filter((p) => p.crypto_code == "dai" && p.action == "sale");
+            if (salesDAI)  transactionStore.setSDAI(salesDAI);
+
+            // console.log(salesBTC);
+            // console.log(salesETH);
+            // console.log(salesDAI);
+
+
         })
         .catch((error) => console.log(error)).finally(() => transactionStore.setLoading(false));
     }
@@ -51,7 +79,7 @@ export function useTransactions(){
     
     async function postTransactions(body: ITransaction) {
         await apiClient.post(`/transactions`, body)
-        .then((res) => console.log(res))
+        .then(async() => getAllTransactions)
         .catch((err) => console.log(err))
     }
 
@@ -63,9 +91,10 @@ export function useTransactions(){
             "No",
             async() => {
                 await apiClient.delete(`/transactions/${id}`)
-                    .finally(() => {router.push({path: "/"})})
+                .then(async() => await getAllTransactions())    
             }   
         )
+            
     }
 
 

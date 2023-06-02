@@ -2,14 +2,20 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue"
 import { ITransaction } from "../interfaces/ITransaction"
 
-    interface WalletState {
-        loading: boolean,
-        transactions: {
-            purchases: ITransaction[],
-            sales: ITransaction[]
-        },
-        transaction: ITransaction,
-    }
+interface WalletState {
+    loading: boolean,
+    transactions: {
+        purchases: ITransaction[],
+        pBTC: ITransaction[],
+        pETH: ITransaction[],
+        pDAI: ITransaction[],
+        sales: ITransaction[],
+        sBTC: ITransaction[],
+        sETH: ITransaction[],
+        sDAI: ITransaction[]
+    },
+    transaction: ITransaction,
+}
 
 
 
@@ -19,35 +25,57 @@ export const useTransactionStore = defineStore("transaction", {
         loading: true,
         transactions: {
             purchases: [],
-            sales: []
+            pBTC: [],
+            pETH: [],
+            pDAI: [],
+            sales: [],
+            sBTC: [],
+            sETH: [],
+            sDAI: [],
+
         },
-        transaction:{
+        transaction: {
             _id: '',
             user_id: '',
             action: '',
             crypto_code: '',
-            crypto_amount: 0,
-            money: 0,
+            crypto_amount: '',
+            money: '',
             datetime: ''
-        }
+        },
+
+
     }),
+
     getters: {
-        getLoading(state) {
-            return state.loading;
+
+        purBTC: (state) => {
+            return state.transactions.pBTC.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
         },
-        getPurchases: (state) => (value: string) => {
-            return state.transactions.purchases.filter(
-                (p) => p.crypto_code === value
-            );
+        purETH: (state) => {
+            return state.transactions.pETH.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
         },
-        getSales: (state) => (value: string) => {
-            return state.transactions.sales.filter(
-                (p) => p.crypto_code === value
-            );
+        purDAI: (state) => {
+            return state.transactions.pDAI.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
         },
-        getTransactionRead: (state) => (value:Object) => {
-            return state.transaction == value;
-        } 
+        saleBTC: (state) => {
+            return state.transactions.sBTC.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
+        },
+        saleETH: (state) => {
+            return state.transactions.sETH.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
+        },
+        saleDAI: (state) => {
+            return state.transactions.sDAI.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)
+        },
+        totalBTC: (state) => {
+            return state.transactions.pBTC.reduce((total, t) => total + parseFloat(t.crypto_amount), 0) - state.transactions.sBTC.reduce((total, t) => total + parseFloat(t.crypto_amount), 0);
+        },
+        totalETH: (state) => {
+            return state.transactions.pETH.reduce((total, t) => total + parseFloat(t.crypto_amount), 0) - state.transactions.sETH.reduce((total, t) => total + parseFloat(t.crypto_amount), 0);
+        },
+        totalDAI: (state) => {
+            return state.transactions.pDAI.reduce((total, t) => total + parseFloat(t.crypto_amount), 0)- state.transactions.sDAI.reduce((total, t) => total + parseFloat(t.crypto_amount), 0);
+        },
     },
     actions: {
         setLoading(v: boolean) {
@@ -56,12 +84,33 @@ export const useTransactionStore = defineStore("transaction", {
         setAllPurchases(data) {
             this.transactions.purchases = data;
         },
-        setAllSales(data){
+        setAllSales(data) {
             this.transactions.sales = data;
         },
         setTransactionRead(data) {
             this.transaction = data;
+        },
+        setPBTC(data) {
+            this.transactions.pBTC = data;
+        },
+        setPETH(data) {
+            this.transactions.pETH = data;
+        },
+        setPDAI(data) {
+            this.transactions.pDAI = data;
+        },
+        setSBTC(data) {
+            this.transactions.sBTC = data;
+        },
+        setSETH(data) {
+            this.transactions.sETH = data;
+        },
+        setSDAI(data) {
+            this.transactions.sDAI = data;
         }
 
     },
+
+
+
 });
