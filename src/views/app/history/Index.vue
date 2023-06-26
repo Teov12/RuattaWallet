@@ -20,7 +20,7 @@ const selectedTrans = ref<ITransaction>({
     action: '',
     crypto_code: '',
     crypto_amount: '',
-    money: 0,
+    money: '',
     datetime: ''
 })
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useTransactions } from "../../../hooks/useTransactions"
-import { ref, watch } from "vue";
-import useCryptoStore from "../../../stores/cryptos.store"
+import { useTransactions } from "../../../hooks/useTransactions";
+import { ref, watch, computed } from "vue";
+import useCryptoStore from "../../../stores/cryptos.store";
 import { useFirebase } from "../../../hooks/useFirebase";
-import { ITransaction } from "../../../interfaces/ITransaction"
+import { ITransaction } from "../../../interfaces/ITransaction";
 import { Field, ErrorMessage, useForm } from "vee-validate";
-import { cryptoSchema } from "../../../validations/cryptoValidations"
+import { cryptoSchema } from "../../../validations/cryptoValidations";
 import { useDateFormat, useNow } from "@vueuse/core";
 import Swal from "sweetalert2";
 import { useTransactionStore } from "../../../stores";
@@ -19,7 +19,7 @@ const cryptoStore = useCryptoStore();
 const isLoading = ref<boolean>(false);
 //
 
-const date = useDateFormat(useNow(), 'DD-MM-YYYY HH:mm')
+const date = useDateFormat(useNow(), "DD-MM-YYYY HH:mm");
 
 const { handleSubmit, setFieldValue, values } = useForm<ITransaction>({
   initialValues: {
@@ -27,28 +27,30 @@ const { handleSubmit, setFieldValue, values } = useForm<ITransaction>({
     action: "purchase",
     crypto_code: "",
     crypto_amount: "",
-    money: 0 || "",
-    datetime: ""
+    money: "",
+    datetime: "",
   },
-  validationSchema: cryptoSchema
+  validationSchema: cryptoSchema,
 });
+
+const amountValue = computed(() => {
+  cryptoStore.getTotalAskPriceByValue(values.crypto_code);
+});
+
+const operation = computed(() => {
+  return parseFloat(values.crypto_amount) * parseFloat(cryptoStore.getTotalAskPriceByValue(values.crypto_code).toFixed(2).toString());
+})
 
 watch(
   () => values.crypto_amount,
-  () =>
-    setFieldValue(
-      "money",
-      values.crypto_amount * cryptoStore.getTotalAskPriceByValue(values.crypto_code)
-    )
+  () => setFieldValue("money", operation.value.toFixed(2).toString())
 );
 
-
 const submit = handleSubmit(async (values) => {
-
-  isLoading.value = true;
+  isLoading.value = true; 
   values.crypto_amount = values.crypto_amount;
   values.datetime = date.value;
-  values.money
+  values.money;
   console.log(values);
 
   await postTransactions({
@@ -59,14 +61,11 @@ const submit = handleSubmit(async (values) => {
     money: values.money,
     datetime: date.value,
   })
-    .then(() => (Swal.fire("Compra exitosa", "", "success")))
+    .then(() => Swal.fire("Compra exitosa", "", "success"))
     .finally(() => {
-      isLoading.value = false
-    })
+      isLoading.value = false;
+    });
 });
-
-
-
 </script>
 
 <template>
