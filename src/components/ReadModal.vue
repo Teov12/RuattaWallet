@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import { useTransactionStore } from "../stores/transaction.store"
 import { ITransaction } from "../interfaces/ITransaction";
-
-const { transaction } = useTransactionStore();
 
 
 const props = defineProps<{

@@ -170,7 +170,7 @@ onMounted(async () => {
           </tr>
           <tr>
             <td>TOTAL</td>
-            <td></td>
+            <td>-</td>
             <td>{{ sumaTotal }}</td>
           </tr>
         </tbody>

@@ -6,12 +6,12 @@ const MenuConfig = [
   },
   {
     title: "Compras",
-    route: "/purchase",
+    route: "/purchase/new",
     icon: "fa-tags",
   },
   {
     title: "Ventas",
-    route: "/sale",
+    route: "/sale/new",
     icon: "fa-sun",
   },
   {

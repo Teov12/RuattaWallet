@@ -20,7 +20,7 @@ onMounted(async () => {
   <Loader msg="Cargando datos del usuario" v-if="isLoading" class-name="vh-100"></Loader>
   <div v-else>
     <h1>Home</h1>
-    <h3 class="text-center">Criptomonedas disponibles para comprar y vender en nuestra exchange</h3>
+    <h3 class="text-center p-10">Criptomonedas disponibles para comprar y vender en nuestra exchange</h3>
     <div>
       <cryptoCard></cryptoCard>
     </div>

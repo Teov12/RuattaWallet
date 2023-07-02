@@ -6,8 +6,8 @@ let id = 0;
 </script>
 
 <template>
-  <div class="item-center">
-    <table class="table table-sm">
+  <div class="item-center align-items-center justify-content-center">
+    <table class="responsive-table table table-sm">
       <thead>
         <tr>
           <th scope="col">#</th>

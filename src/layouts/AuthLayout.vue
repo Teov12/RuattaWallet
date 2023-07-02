@@ -41,18 +41,17 @@ onUnmounted(() => {
           <h1
             class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7"
           >
-            Fast, Efficient and Productive
+            Rapido, Eficiente y Productivo
           </h1>
           <div class="d-none d-lg-block text-white fs-base text-center">
-            In this kind of post,
+            Bienvenido a nuestra
             <a href="#" class="opacity-75-hover text-warning fw-bold me-1"
-              >the blogger</a
-            >introduces a person they’ve interviewed <br />and provides some
-            background information about
+              >exchange</a
+            >de criptomonedas la mejor exchange <br />donde podrás comprar
+            y vender tus criptomonedas al
             <a href="#" class="opacity-75-hover text-warning fw-bold me-1"
-              >the interviewee</a
-            >and their <br />work following this is a transcript of the
-            interview.
+              >mejor precio</a
+            >y con la mejor <br />seguridad brindada.
           </div>
         </div>
       </div>
