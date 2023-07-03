@@ -108,10 +108,6 @@ const resultBTC = computed(() => {
   }
 });
 
-console.log(cryptoStore.getTotalBidPriceByValue("btc"));
-console.log(cryptoStore.getTotalBidPriceByValue("btc") * totalBTC.value);
-console.log(dineroPurBTC.value);
-
 const resultETH = computed(() => {
   if (salesETH.value.length != 0) {
     salesEth.value = true;
@@ -146,13 +142,13 @@ onMounted(async () => {
     <div class="container justify-content-start align-content-center m-10 py-5 shadow-sm">
       <table class="table table-row-dashed table-row-gray-300 gy-7">
         <thead>
-          <tr class="fw-bolder fs-5 text-gray-800">
+          <tr class="fw-bolder fs-5 text-gray-800 text-center">
             <th>Criptomoneda</th>
             <th>Cantidad</th>
             <th>Dinero</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
           <tr>
             <td>BTC</td>
             <td>{{ totalBTC }}</td>
@@ -180,12 +176,12 @@ onMounted(async () => {
     <div class="container justify-content-start align-content-center m-10 py-5 shadow-sm">
       <table class="table table-row-dashed table-row-gray-300 gy-7 col">
         <thead>
-          <tr class="fw-bolder fs-5 text-gray-800">
+          <tr class="fw-bolder fs-5 text-gray-800 text-center">
             <th>Criptomoneda</th>
             <th>Resultado</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
           <tr>
             <td>BTC</td>
             <td>{{ resultBTC }}</td>
