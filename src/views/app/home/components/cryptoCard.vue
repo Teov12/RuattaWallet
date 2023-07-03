@@ -7,9 +7,9 @@ let id = 0;
 
 <template>
   <div class="item-center align-items-center justify-content-center">
-    <table class="responsive-table table table-sm">
+    <table class="responsive-table table table-striped">
       <thead>
-        <tr>
+        <tr class="fs-2 fw-bolder">
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
           <th scope="col">Precio/ARS</th>
