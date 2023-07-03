@@ -6,14 +6,24 @@ const MenuConfig = [
   },
   {
     title: "Compras",
-    route: "/purchase",
+    route: "/purchase/new",
     icon: "fa-tags",
   },
   {
     title: "Ventas",
-    route: "/sale",
+    route: "/sale/new",
     icon: "fa-sun",
   },
+  {
+    title: 'Billetera',
+    route: '/wallet',
+    icon: "fa-wallet"
+  },
+  {
+    title: "Historial",
+    route: "/history",
+    icon : "fa-money-bill-transfer"
+  }
 ];
 
 export default MenuConfig;

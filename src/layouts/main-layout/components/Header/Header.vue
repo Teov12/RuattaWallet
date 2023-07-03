@@ -11,11 +11,9 @@ import NavbarVue from "./Navbar.vue";
         class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15"
       >
         <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/media/weve/logos/logo-white.svg"
-            class="h-20px h-lg-30px app-sidebar-logo-default"
-          />
+          <span class="svg-icon svg-icon-1">
+            <i class="fa-solid fa-house"></i>
+          </span>
         </RouterLink>
       </div>
       <div
@@ -32,13 +30,7 @@ import NavbarVue from "./Navbar.vue";
         </div>
       </div>
       <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-        <router-link to="/" class="d-lg-none">
-          <img
-            alt="Logo"
-            src="/media/weve/logos/logo-primary.svg"
-            class="h-30px"
-          />
-        </router-link>
+        
       </div>
       <div
         class="d-flex align-items-stretch justify-content-end flex-lg-grow-1"

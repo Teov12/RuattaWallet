@@ -37,7 +37,19 @@ const routes: RouteRecordRaw[] = [
         name: "NewSale",
         component: () => import("./views/app/sale/New.vue"),
         meta: {pageTitle: "Nueva venta"},
-      }
+      },
+      {
+        path: "/history",
+        name: "History",
+        component: () => import("./views/app/history/Index.vue"),
+        meta: {pageTitle: "Historial"},
+      },
+      {
+        path: "/history/update/:id",
+        name: "Edit transaction",
+        component: () => import ("./views/app/history/Update.vue"),
+        meta: {pageTitle: "Edit transaction"}
+      },
     ],
   },
   {

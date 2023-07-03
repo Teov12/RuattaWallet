@@ -1,16 +1,6 @@
 <template>
   <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
     <router-link to="/">
-      <img
-        alt="Logo"
-        src="/media/weve/logos/logo-white-small.svg"
-        class="h-35px app-sidebar-logo-default"
-      />
-      <img
-        alt="Logo"
-        src="/media/weve/logos/logo-white.svg"
-        class="h-20px app-sidebar-logo-minimize"
-      />
     </router-link>
     <div
       id="kt_app_sidebar_toggle"

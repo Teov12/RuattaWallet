@@ -26,7 +26,7 @@ const currentYear = computed(() => new Date().getFullYear());
           href="https://keenthemes.com"
           target="_blank"
           class="text-gray-800 text-hover-primary"
-          >We-Ve Business</a
+          >Crypto Space</a
         >
       </div>
       <!--end::Copyright-->
